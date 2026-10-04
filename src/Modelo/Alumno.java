@@ -6,23 +6,26 @@ public class Alumno {
 
     private int idAlumno, dni;
     private String nombre;
+    private String apellido;
     private LocalDate fechaNac;
     private boolean activo;
 
     public Alumno() {
     }
 
-    public Alumno(int idAlumno, int dni, String nombre, LocalDate fechaNac, boolean activo) {
-        this.idAlumno = idAlumno;
-        this.dni = dni;
-        this.nombre = nombre;
-        this.fechaNac = fechaNac;
-        this.activo = activo;
-    }
+//    public Alumno(int idAlumno, int dni, String nombre, String apellido, LocalDate fechaNac, boolean activo) {
+//        this.idAlumno = idAlumno;
+//        this.dni = dni;
+//        this.nombre = nombre;
+//        this.apellido = apellido;
+//        this.fechaNac = fechaNac;
+//        this.activo = activo;
+//    }
 
-    public Alumno(int dni, String nombre, LocalDate fechaNac, boolean activo) {
+    public Alumno(int dni, String nombre, String apellido, LocalDate fechaNac, boolean activo) {
         this.dni = dni;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.fechaNac = fechaNac;
         this.activo = activo;
     }
@@ -51,6 +54,14 @@ public class Alumno {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public LocalDate getFechaNac() {
         return fechaNac;
     }
@@ -70,7 +81,7 @@ public class Alumno {
 
 
     public String toString() {
-        return idAlumno + dni + nombre + fechaNac + activo;
+        return "ID Alumno: " + idAlumno + "\nDNI:"+ dni +"\nNombre: " + nombre +"\nApellido: " +apellido+ "\nFecha De Nacimiento: "+ fechaNac +"\nEstado: "+ activo;
     }
 
 }
