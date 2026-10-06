@@ -68,7 +68,7 @@ public class AlumnoData {
             ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while(rs.next()){            
                 alumno = new Alumno();
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setDni(rs.getInt("dni"));
@@ -76,8 +76,6 @@ public class AlumnoData {
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setFechaNac(rs.getDate("fechaNac").toLocalDate());
                 alumno.setActivo(rs.getBoolean("activo"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No existe ese alumno: ");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -89,13 +87,12 @@ public class AlumnoData {
     public List<Alumno> listarAlumno() {
         Alumno alumno = null;
         String sql = "SELECT * FROM alumno";
-        ArrayList<Alumno> alumnos = new ArrayList<>();
-        
+        ArrayList<Alumno> alumnos = new ArrayList<>(); 
         PreparedStatement ps;
         try {
             ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while(rs.next()){            
                 alumno = new Alumno();
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setDni(rs.getInt("dni"));
@@ -103,13 +100,13 @@ public class AlumnoData {
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setFechaNac(rs.getDate("fechaNac").toLocalDate());
                 alumno.setActivo(rs.getBoolean("activo"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No existe ese alumno: ");
+                alumnos.add(alumno);
             }
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error SQL" + ex);
         }
         return alumnos;
+        
     }
 }
