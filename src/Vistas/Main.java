@@ -16,8 +16,9 @@ public class Main {
         Alumno encontrado = ad.buscarAlumno(1);
         System.out.println("------ALUMNO-----");
         System.out.println(encontrado);
+        System.out.println("------LISTADO DE ALUMNOS-----");
+        System.out.println(ad.listarAlumno());
         ad.borrarAlumno(3);
-        ad.listarAlumno();
 
 
     }
