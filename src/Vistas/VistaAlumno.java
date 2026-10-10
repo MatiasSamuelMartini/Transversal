@@ -356,5 +356,81 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
+    public void limpiarCampos() {
+        txtId.setText("");
+        txtDNI.setText("");
+        txtApellido.setText("");
+        txtNombre.setText("");
+        dtcFechaNacimiento.setDate(null);
+        chkActivo.setSelected(false);
+    }
+
+    public void desactivarCampos() {
+        txtDNI.setEnabled(false);
+        txtApellido.setEnabled(false);
+        txtNombre.setEnabled(false);
+        dtcFechaNacimiento.setEnabled(false);
+        chkActivo.setEnabled(false);
+    }
+    public void activarCampos() {
+        txtId.setEnabled(true);
+        txtDNI.setEnabled(true);
+        txtApellido.setEnabled(true);
+        txtNombre.setEnabled(true);
+        dtcFechaNacimiento.setEnabled(true);
+        chkActivo.setEnabled(true);
+    }
+    
+    public void bloquearBotones(){
+       btnActualizar.setEnabled(false);
+       btnBorrar.setEnabled(false);
+       btnGuardar.setEnabled(false);
+       btnLimpiar.setEnabled(false);
+       btnBuscar.setEnabled(false);
+    }
+    
+    public void activarBotones(){
+       btnActualizar.setEnabled(true);
+       btnBorrar.setEnabled(true);
+       btnGuardar.setEnabled(true);
+       btnLimpiar.setEnabled(true);
+       btnBuscar.setEnabled(true);
+    }
+    
+
+    public void llenarCampos(int id) {
+        alumno = ad.buscarAlumno(id);
+
+        if (alumno != null) {
+            txtDNI.setText(Integer.toString(alumno.getDni()));
+            txtApellido.setText(alumno.getApellido());
+            txtNombre.setText(alumno.getNombre());
+            dtcFechaNacimiento.setDate(java.sql.Date.valueOf(alumno.getFechaNac()));
+            chkActivo.setSelected(alumno.isActivo());
+        } else {
+            JOptionPane.showMessageDialog(null, "El ID del alumno ingresado no existe!!", "WARNING_MESSAGE", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void borrarAlumno(int id) {
+        if (ad.buscarAlumno(id) != null) {
+            ad.borrarAlumno(id);
+            JOptionPane.showMessageDialog(null, "Alumno borrado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pude borrar el alumno");
+        }
+    }
+
+    public void guardarAlumno() {
+        alumno.setDni(Integer.parseInt(txtDNI.getText()));
+        alumno.setApellido(txtApellido.getText());
+        alumno.setNombre(txtNombre.getText());
+
+        LocalDate fecha = dtcFechaNacimiento.getCalendar().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        alumno.setFechaNac(fecha);
+        alumno.setActivo(chkActivo.isSelected());
+        
+        ad.guardarAlumno(alumno);     
+    }
 
 }
