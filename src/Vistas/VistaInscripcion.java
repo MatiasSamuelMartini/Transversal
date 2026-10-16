@@ -1,20 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vistas;
 
-/**
- *
- * @author santi
- */
+import Modelo.Alumno;
+import Modelo.Cursada;
+import Modelo.Materia;
+import Persistencia.AlumnoData;
+import Persistencia.InscripcionData;
+import Persistencia.MateriaData;
+import java.util.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 public class VistaInscripcion extends javax.swing.JInternalFrame {
+    AlumnoData ad = new AlumnoData();
+    MateriaData md = new MateriaData();
+    InscripcionData id = new InscripcionData();
+    Materia materia = new Materia();
+    Alumno alumno = new Alumno();
+    Cursada cursada = new Cursada();
+    private DefaultTableModel modelo = new DefaultTableModel();
 
     /**
      * Creates new form VistaInscripcion
      */
     public VistaInscripcion() {
         initComponents();
+        llenarCabecera();
+        ocultarInscripcion();
     }
 
     /**
@@ -26,21 +39,245 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        lblTitulo = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        lblApellidoyNombre = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        txtApellidoyNombre = new javax.swing.JTextField();
+        chkMaterias = new javax.swing.JCheckBox();
+        chkMateriasNo = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        btnInscribirse = new javax.swing.JButton();
+        txtMaterias = new javax.swing.JLabel();
+        cmbMaterias = new javax.swing.JComboBox<>();
+        scrPanel = new javax.swing.JScrollPane();
+        tblMaterias = new javax.swing.JTable();
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Alumnos Incriptos a Materias");
+
+        lblId.setText("Id del Alumno");
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+
+        lblApellidoyNombre.setText("Apellido y Nombre del Alumno");
+
+        buttonGroup1.add(chkMaterias);
+        chkMaterias.setText("Materias Inscriptas");
+        chkMaterias.addActionListener(this::chkMateriasActionPerformed);
+
+        buttonGroup1.add(chkMateriasNo);
+        chkMateriasNo.setText("Materias no Inscriptas");
+        chkMateriasNo.addActionListener(this::chkMateriasNoActionPerformed);
+
+        btnInscribirse.setText("Incribirse");
+
+        txtMaterias.setText("Materias");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(221, 221, 221)
+                        .addComponent(btnInscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtMaterias)
+                        .addGap(153, 153, 153)
+                        .addComponent(cmbMaterias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(26, 26, 26))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMaterias)
+                    .addComponent(cmbMaterias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnInscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblId)
+                            .addComponent(lblApellidoyNombre))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtApellidoyNombre))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 123, Short.MAX_VALUE)
+                        .addComponent(chkMaterias)
+                        .addGap(64, 64, 64)
+                        .addComponent(chkMateriasNo)
+                        .addGap(144, 144, 144))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(155, 155, 155))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitulo)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblId)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblApellidoyNombre)
+                    .addComponent(txtApellidoyNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chkMaterias)
+                    .addComponent(chkMateriasNo))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tblMaterias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrPanel.setViewportView(tblMaterias);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrPanel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        chkMaterias.setSelected(true);
+        llenarNombreAlumno(Integer.parseInt(txtId.getText()));
+        llenarTabla();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void chkMateriasNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMateriasNoActionPerformed
+        // TODO add your handling code here:
+        mostrarInscripcion();
+    }//GEN-LAST:event_chkMateriasNoActionPerformed
+
+    private void chkMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMateriasActionPerformed
+        // TODO add your handling code here:
+        ocultarInscripcion();   
+    }//GEN-LAST:event_chkMateriasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnInscribirse;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox chkMaterias;
+    private javax.swing.JCheckBox chkMateriasNo;
+    private javax.swing.JComboBox<String> cmbMaterias;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblApellidoyNombre;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JScrollPane scrPanel;
+    private javax.swing.JTable tblMaterias;
+    private javax.swing.JTextField txtApellidoyNombre;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JLabel txtMaterias;
     // End of variables declaration//GEN-END:variables
+
+    public void llenarCabecera(){
+        ArrayList<Object> c = new ArrayList<>();
+        c.add("Id Materias");
+        c.add("Nombre");
+        
+        for (Object it : c){
+            modelo.addColumn(it);
+            tblMaterias.setModel(modelo);
+        }       
+    }
+    
+    private void borrarFila() {
+        int a = modelo.getRowCount() - 1;
+
+        for (int i = a; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+    
+    private void llenarTabla(){
+        borrarFila();
+        for (Materia m : md.listarMateria()) {
+            modelo.addRow(new Object[]{m.getIdMateria(), m.getNombre(), m.isEstado()});
+        }
+    }
+    
+    public void llenarNombreAlumno(int id) {
+        alumno = ad.buscarAlumno(id);       
+            txtApellidoyNombre.setText(alumno.getApellido()+" "+ alumno.getNombre());
+    }
+    
+    
+    public void ocultarInscripcion(){
+        txtMaterias.setVisible(false);
+        cmbMaterias.setVisible(false);
+        btnInscribirse.setVisible(false);
+    }
+    
+    public void mostrarInscripcion(){
+        txtMaterias.setVisible(true);
+        cmbMaterias.setVisible(true);
+        btnInscribirse.setVisible(true);
+    }
+    
+    
+
 }
