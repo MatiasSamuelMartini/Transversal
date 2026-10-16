@@ -64,7 +64,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         lblId.setText("ID");
 
         btnBuscar.setText("Buscar");
-        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -102,23 +102,23 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         lblActivo.setText("Activo");
 
         btnGuardar.setText("Guardar");
-        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnBorrar.setText("Borrar");
-        btnBorrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBorrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnBorrar.addActionListener(this::btnBorrarActionPerformed);
 
         btnActualizar.setText("Actualizar");
-        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
         btnLimpiar.setText("Limpiar");
-        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         btnSalir.setText("Salir");
-        btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnSalir.addActionListener(this::btnSalirActionPerformed);
 
         dtcFechaNacimiento.setToolTipText("");
@@ -131,12 +131,13 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
         btnActCancelar.setBackground(new java.awt.Color(235, 157, 157));
         btnActCancelar.setText("Cancelar");
-        btnActCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnActCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnActCancelar.addActionListener(this::btnActCancelarActionPerformed);
 
         btnActGuardar.setBackground(new java.awt.Color(157, 239, 158));
         btnActGuardar.setText("Guardar");
-        btnActGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnActGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnActGuardar.addActionListener(this::btnActGuardarActionPerformed);
 
         javax.swing.GroupLayout pnlBotonesActLayout = new javax.swing.GroupLayout(pnlBotonesAct);
         pnlBotonesAct.setLayout(pnlBotonesActLayout);
@@ -329,6 +330,11 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnActGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActGuardarActionPerformed
+        // TODO add your handling code here:
+        actualizarAlumno();
+    }//GEN-LAST:event_btnActGuardarActionPerformed
     
     
     
@@ -441,6 +447,18 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         alumno.setActivo(chkActivo.isSelected());
         
         ad.guardarAlumno(alumno);     
+    }
+    
+    public void actualizarAlumno() {
+        alumno.setDni(Integer.parseInt(txtDNI.getText()));
+        alumno.setApellido(txtApellido.getText());
+        alumno.setNombre(txtNombre.getText());
+
+        LocalDate fecha = dtcFechaNacimiento.getCalendar().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        alumno.setFechaNac(fecha);
+        alumno.setActivo(chkActivo.isSelected());
+        
+        ad.actualizarAlumno(alumno, Integer.parseInt(txtId.getText()));        
     }
 
 }

@@ -111,4 +111,26 @@ public class AlumnoData {
         return alumnos;
 
     }
+
+    public void actualizarAlumno(Alumno alumno, int id) {
+        String sql = "UPDATE alumno SET dni = ?, nombre = ?, apellido = ?, fechaNac = ?, activo = ? "
+                + "WHERE idAlumno = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, alumno.getDni());
+            ps.setString(2, alumno.getNombre());
+            ps.setString(3, alumno.getApellido());
+            ps.setDate(4, Date.valueOf(alumno.getFechaNac()));
+            ps.setBoolean(5, alumno.isActivo());
+            ps.setInt(6, id);
+
+            if (ps.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Alumno actualizado con exito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe un alumno con id " + id);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno: " + e.getMessage());
+        }
+    }
 }
