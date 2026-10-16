@@ -78,6 +78,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this::btnSalirActionPerformed);
@@ -231,6 +232,12 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         txtCodigo.setEnabled(false);
     }//GEN-LAST:event_chkEstadoFocusGained
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        activarCampos();
+        actualizarMateria();
+    }//GEN-LAST:event_btnActualizarActionPerformed
 /**/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -316,5 +323,12 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         materia.setEstado(chkEstado.isSelected());
         
         md.guardarMateria(materia);     
+    }
+    
+    public void actualizarMateria(){
+        materia.setNombre(txtNombre.getText());
+        materia.setEstado(chkEstado.isSelected());
+        
+        md.actualizarMateria(materia, Integer.parseInt(txtCodigo.getText()));        
     }
 }
