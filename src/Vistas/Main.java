@@ -16,8 +16,14 @@ public class Main {
         Alumno alumno = new Alumno(100, "Martini", "Matias", fecha, true);
         AlumnoData ad = new AlumnoData();
         ad.guardarAlumno(alumno);
-        ad.listarAlumno();
-        System.out.println(ad.listarAlumno());
         
+        Alumno encontrado = ad.buscarAlumno(1);
+        System.out.println("------ALUMNO-----");
+        System.out.println(encontrado);
+        System.out.println("------LISTADO DE ALUMNOS-----");
+        System.out.println(ad.listarAlumno());
+        ad.borrarAlumno(3);
+
+
     }
 }

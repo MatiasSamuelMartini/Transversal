@@ -61,7 +61,7 @@ public class AlumnoData {
     public Alumno buscarAlumno(int id) {
         Alumno alumno = null;
 
-        String sql = "SELECT * FROM alumno WHERE idAlumno = ? AND activo = true";
+        String sql = "SELECT * FROM alumno WHERE idAlumno = ?";
         
         PreparedStatement ps;
         try {
@@ -87,12 +87,12 @@ public class AlumnoData {
     public List<Alumno> listarAlumno() {
         Alumno alumno = null;
         String sql = "SELECT * FROM alumno";
-        ArrayList<Alumno> alumnos = new ArrayList<>(); 
+        ArrayList<Alumno> alumnos = new ArrayList<>();
         PreparedStatement ps;
         try {
             ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){            
+            while (rs.next()) {
                 alumno = new Alumno();
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setDni(rs.getInt("dni"));
@@ -107,6 +107,6 @@ public class AlumnoData {
             JOptionPane.showMessageDialog(null, "Error SQL" + ex);
         }
         return alumnos;
-        
+
     }
 }
