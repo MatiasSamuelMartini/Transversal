@@ -16,12 +16,11 @@ public class MateriaData {
     }
 
     public void guardarMateria(Materia materia) {
-        String sql = "INSERT INTO materia (idMateria, nombre, estado) VALUES ( ?, ?, ?)";
+        String sql = "INSERT INTO materia (nombre, estado) VALUES ( ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, materia.getIdMateria());
-            ps.setString(2, materia.getNombre());
-            ps.setBoolean(3, materia.isEstado());
+            ps.setString(1, materia.getNombre());
+            ps.setBoolean(2, materia.isEstado());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -36,7 +35,7 @@ public class MateriaData {
     }
 
     public void borrarMateria(int id) {
-        String sql = "DELETE FROM materia WHERE `materia`.`idMateria` = ?";
+        String sql = "UPDATE materia SET estado = 0 WHERE idMateria = ?";
 
         PreparedStatement ps;
         try {
@@ -79,7 +78,7 @@ public class MateriaData {
         return materia;
     }
 
-    public List<Materia> listarAlumno() {
+    public List<Materia> listarMateria() {
         Materia materia = null;
         String sql = "SELECT * FROM materia";
         ArrayList<Materia> materias = new ArrayList<>();
