@@ -196,7 +196,6 @@ public class VistaMateria extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Debe ingresar un numero valido");
         } else {
             llenarCampos(Integer.parseInt(txtCodigo.getText()));
-            desactivarCampos();
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -234,9 +233,15 @@ public class VistaMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_chkEstadoFocusGained
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
+        if(txtNombre.getText().isEmpty() || txtCodigo.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,"Debe llenar los campos", "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
         activarCampos();
         actualizarMateria();
+        }
+
     }//GEN-LAST:event_btnActualizarActionPerformed
 /**/
 
