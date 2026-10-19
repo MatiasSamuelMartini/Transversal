@@ -4,17 +4,37 @@
  */
 package Vistas;
 
+import Modelo.Alumno;
+import Modelo.Cursada;
+import Modelo.Materia;
+import Persistencia.AlumnoData;
+import Persistencia.InscripcionData;
+import Persistencia.MateriaData;
+import java.util.*;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author santi
  */
 public class VistaCargaNotas extends javax.swing.JInternalFrame {
 
+    AlumnoData ad = new AlumnoData();
+    MateriaData md = new MateriaData();
+    InscripcionData id = new InscripcionData();
+    Materia materia = new Materia();
+    Alumno alumno = new Alumno();
+    Cursada cursada = new Cursada();
+    private DefaultTableModel modelo = new DefaultTableModel();
+
     /**
      * Creates new form VistaCargaNotas
      */
     public VistaCargaNotas() {
         initComponents();
+        llenarCabecera();
+        llenarTabla();
+        llenarCMB();
     }
 
     /**
@@ -26,21 +46,152 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        cmbSeleccionarAlumno = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblNotas = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+
+        cmbSeleccionarAlumno.addActionListener(this::cmbSeleccionarAlumnoActionPerformed);
+
+        tblNotas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Codigo", "Nombre", "Nota"
+            }
+        ));
+        jScrollPane1.setViewportView(tblNotas);
+
+        jButton1.setText("Guardar");
+
+        jButton2.setText("Salir");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jLabel1.setText("Seleccione un alumno:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(136, 136, 136))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbSeleccionarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(46, 46, 46))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbSeleccionarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGap(0, 546, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGap(0, 349, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmbSeleccionarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSeleccionarAlumnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSeleccionarAlumnoActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<Alumno> cmbSeleccionarAlumno;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblNotas;
     // End of variables declaration//GEN-END:variables
+
+    public void llenarCabecera() {
+        ArrayList<Object> c = new ArrayList<>();
+        c.add("Id Materias");
+        c.add("Materia");
+        c.add("Nota");
+
+        for (Object it : c) {
+            modelo.addColumn(it);
+            tblNotas.setModel(modelo);
+        }
+    }
+
+    private void borrarFila() {
+        int a = modelo.getRowCount() - 1;
+
+        for (int i = a; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+
+    private void llenarTabla() {
+        borrarFila();
+        for (Cursada c : id.listarNotas()) {
+            modelo.addRow(new Object[]{c.getIdCursada(), c.getMateria().getNombre(), c.getNota()});
+
+        }
+    }
+
+    private void llenarCMB() {
+        cmbSeleccionarAlumno.removeAllItems(); // evita duplicados si lo llamás más de una vez
+        for (Alumno a : ad.listarAlumno()) {
+            cmbSeleccionarAlumno.addItem(a);
+        }
+        if (cmbSeleccionarAlumno.getItemCount() > 0) {
+            cmbSeleccionarAlumno.setSelectedIndex(0);
+        }
+    }
+
 }

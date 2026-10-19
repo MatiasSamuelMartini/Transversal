@@ -27,7 +27,6 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     public VistaInscripcion() {
         initComponents();
         llenarCabecera();
-        ocultarInscripcion();
     }
 
     /**
@@ -53,6 +52,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         btnInscribirse = new javax.swing.JButton();
         txtMaterias = new javax.swing.JLabel();
         cmbMaterias = new javax.swing.JComboBox<>();
+        btnDesinscribirse = new javax.swing.JButton();
         scrPanel = new javax.swing.JScrollPane();
         tblMaterias = new javax.swing.JTable();
 
@@ -76,24 +76,31 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         chkMateriasNo.addActionListener(this::chkMateriasNoActionPerformed);
 
         btnInscribirse.setText("Incribirse");
+        btnInscribirse.addActionListener(this::btnInscribirseActionPerformed);
 
         txtMaterias.setText("Materias");
+
+        cmbMaterias.addActionListener(this::cmbMateriasActionPerformed);
+
+        btnDesinscribirse.setText("Desinscribirse");
+        btnDesinscribirse.addActionListener(this::btnDesinscribirseActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(221, 221, 221)
-                        .addComponent(btnInscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtMaterias)
-                        .addGap(153, 153, 153)
-                        .addComponent(cmbMaterias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(txtMaterias)
+                .addGap(153, 153, 153)
+                .addComponent(cmbMaterias, 0, 386, Short.MAX_VALUE)
                 .addGap(26, 26, 26))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addComponent(btnDesinscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnInscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,9 +109,11 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMaterias)
                     .addComponent(cmbMaterias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnInscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDesinscribirse, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -202,6 +211,8 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         chkMaterias.setSelected(true);
         llenarNombreAlumno(Integer.parseInt(txtId.getText()));
         llenarTabla();
+        btnInscribirse.setEnabled(false);
+        btnDesinscribirse.setEnabled(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void chkMateriasNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMateriasNoActionPerformed
@@ -210,13 +221,26 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_chkMateriasNoActionPerformed
 
     private void chkMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMateriasActionPerformed
-        // TODO add your handling code here:
-        ocultarInscripcion();   
+        // TODO add your handling code here:  
+        mostrarDesinscribirse();
     }//GEN-LAST:event_chkMateriasActionPerformed
+
+    private void btnDesinscribirseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesinscribirseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDesinscribirseActionPerformed
+
+    private void btnInscribirseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInscribirseActionPerformed
+
+    private void cmbMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMateriasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbMateriasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnDesinscribirse;
     private javax.swing.JButton btnInscribirse;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox chkMaterias;
@@ -266,16 +290,14 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     }
     
     
-    public void ocultarInscripcion(){
-        txtMaterias.setVisible(false);
-        cmbMaterias.setVisible(false);
-        btnInscribirse.setVisible(false);
+    public void mostrarDesinscribirse(){
+        btnDesinscribirse.setEnabled(true);
+        btnInscribirse.setEnabled(false);
     }
     
     public void mostrarInscripcion(){
-        txtMaterias.setVisible(true);
-        cmbMaterias.setVisible(true);
-        btnInscribirse.setVisible(true);
+        btnInscribirse.setEnabled(true);
+        btnDesinscribirse.setEnabled(false);
     }
     
     

@@ -84,7 +84,16 @@ public class Alumno {
      */
     @Override
     public String toString() {
-        return "ID Alumno: " + idAlumno + "\nDNI:"+ dni +"\nNombre: " + nombre +"\nApellido: " +apellido+ "\nFecha De Nacimiento: "+ fechaNac +"\nEstado: "+ activo;
+        
+        String activoo;
+        if (activo == true){
+            activoo = "Activo";
+        }else{
+            activoo = "Inactivo";
+        }
+        
+        return dni + " " + nombre + " " + apellido;
+        
     }
 
 }

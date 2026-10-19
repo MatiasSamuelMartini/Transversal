@@ -100,4 +100,22 @@ public class MateriaData {
         return materias;
 
     }
+        public void actualizarMateria(Materia materia, int id) {
+        String sql = "UPDATE materia SET nombre = ?, estado = ? "
+                + "WHERE idMateria = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, materia.getNombre());
+            ps.setBoolean(2, materia.isEstado());
+            ps.setInt(3, id);
+
+            if (ps.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Materia actualizada con exito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe una materia con ese codigo " + id);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Materia: " + e.getMessage());
+        }
+    }
 }

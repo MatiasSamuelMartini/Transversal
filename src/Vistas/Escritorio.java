@@ -77,6 +77,7 @@ public class Escritorio extends javax.swing.JFrame {
         mnuAdministracion.add(mitListarIncripciones);
 
         mitCargarNotas.setText("Cargar Notas");
+        mitCargarNotas.addActionListener(this::mitCargarNotasActionPerformed);
         mnuAdministracion.add(mitCargarNotas);
 
         jMenuBar1.add(mnuAdministracion);
@@ -135,6 +136,14 @@ public class Escritorio extends javax.swing.JFrame {
         dptEscritorio.add(vistainscripcion);
         dptEscritorio.moveToFront(vistainscripcion);
     }//GEN-LAST:event_mitDatosAlumnoActionPerformed
+
+    private void mitCargarNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitCargarNotasActionPerformed
+        // TODO add your handling code here:
+        VistaCargaNotas vistacargarnotas = new VistaCargaNotas();
+        vistacargarnotas.setVisible(true);
+        dptEscritorio.add(vistacargarnotas);
+        dptEscritorio.moveToFront(vistacargarnotas);
+    }//GEN-LAST:event_mitCargarNotasActionPerformed
 
     /**
      * @param args the command line arguments

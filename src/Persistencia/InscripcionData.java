@@ -1,22 +1,24 @@
-
 package Persistencia;
 
 import Modelo.Conexion;
 import Modelo.Cursada;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
-
 public class InscripcionData {
+
     private Connection con = null;
 
     public InscripcionData() {
         con = Conexion.getConexion();
+        Cursada materia = new Cursada();
     }
-    
-    public void guardarInscripcion(Cursada cursada){
+
+    public void guardarInscripcion(Cursada cursada) {
         String sql = "INSERT INTO cursada (idAlumno, idMateria, nota, asist, cursa) VALUES (?, ?, ?, ?, ?, ?)";
-        
+
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, cursada.getAlumno().getIdAlumno());
@@ -36,10 +38,10 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno" + e.getMessage());
         }
     }
-    
-    public void anularInscripcion(int id){
+
+    public void anularInscripcion(int id) {
         String sql = "DELETE FROM cursada WHERE cursada.idCursada = ?";
-        
+
         PreparedStatement ps;
         try {
             ps = con.prepareStatement(sql);
@@ -56,5 +58,26 @@ public class InscripcionData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error SQL." + ex);
         }
+    }
+
+    public List<Cursada> listarNotas() {
+        String sql = "SELECT idCursada, idMateria, nota FROM cursada";
+        List<Cursada> cursadas = new ArrayList<>();
+
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            MateriaData materiaData = new MateriaData();
+
+            while (rs.next()) {
+                Cursada cursada = new Cursada();
+                cursada.setIdCursada(rs.getInt("idCursada"));
+                cursada.setMateria(materiaData.buscarMateria(rs.getInt("idMateria")));
+                cursada.setNota(rs.getFloat("nota"));
+                cursadas.add(cursada);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
+        }
+        return cursadas;
     }
 }
