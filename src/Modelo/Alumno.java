@@ -83,9 +83,7 @@ public class Alumno {
      * @return
      */
     @Override
-    public String toString() {
-        return  dni +", " + nombre +"," +apellido+ ", ";
-        
+    public String toString() {     
         String activoo;
         if (activo == true){
             activoo = "Activo";
