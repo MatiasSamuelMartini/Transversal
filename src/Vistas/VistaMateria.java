@@ -334,6 +334,6 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         materia.setNombre(txtNombre.getText());
         materia.setEstado(chkEstado.isSelected());
         
-        md.actualizarMateria(materia, Integer.parseInt(txtCodigo.getText()));        
+//        md.actualizarMateria(materia, Integer.parseInt(txtCodigo.getText()));        
     }
 }

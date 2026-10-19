@@ -1,4 +1,3 @@
-
 package Vistas;
 
 import javax.swing.JOptionPane;
@@ -6,19 +5,18 @@ import Persistencia.AlumnoData;
 import Modelo.Alumno;
 import java.time.LocalDate;
 
-
 public class VistaAlumno extends javax.swing.JInternalFrame {
 
     AlumnoData ad = new AlumnoData();
     Alumno alumno = new Alumno();
+    private boolean modoEdicion = false;
 
     /**
      * Creates new form VistaAlumno
      */
     public VistaAlumno() {
         initComponents();
-        pnlBotonesAct.setVisible(false);
-        
+        inicio();
     }
 
     /**
@@ -31,10 +29,6 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        lblId = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblApellido = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
@@ -43,10 +37,9 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         txtApellido = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         chkActivo = new javax.swing.JCheckBox();
-        btnGuardar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         dtcFechaNacimiento = new com.toedter.calendar.JDateChooser();
         txtDNI = new javax.swing.JTextField();
@@ -54,40 +47,10 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         pnlBotonesAct = new javax.swing.JPanel();
         btnActCancelar = new javax.swing.JButton();
         btnActGuardar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
 
         setResizable(true);
         setTitle("Buscar Alumno");
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-
-        lblId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblId.setText("ID");
-
-        btnBuscar.setText("Buscar");
-        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblId, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -101,21 +64,19 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
         lblActivo.setText("Activo");
 
-        btnGuardar.setText("Guardar");
-        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
-
         btnBorrar.setText("Borrar");
         btnBorrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnBorrar.setEnabled(false);
         btnBorrar.addActionListener(this::btnBorrarActionPerformed);
 
         btnActualizar.setText("Actualizar");
         btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnActualizar.setEnabled(false);
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+        btnNuevo.setText("Nuevo");
+        btnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnNuevo.addActionListener(this::btnNuevoActionPerformed);
 
         btnSalir.setText("Salir");
         btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -146,7 +107,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
             .addGroup(pnlBotonesActLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlBotonesActLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                    .addComponent(btnActCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnActGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -160,6 +121,10 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -172,7 +137,19 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                 .addGap(57, 57, 57)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(chkActivo))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -187,43 +164,26 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                                 .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(dtcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 23, Short.MAX_VALUE)
-                        .addComponent(pnlBotonesAct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(59, 59, 59))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(chkActivo))
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(pnlBotonesAct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(53, 53, 53))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(58, 58, 58)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,88 +192,76 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblFechaNac, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dtcFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(pnlBotonesAct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dtcFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(pnlBotonesAct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chkActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-        btnGuardar.setEnabled(false);
-        String valor = "[0-9]+";
-        if (!txtId.getText().matches(valor) || txtId.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un numero valido");
-        } else {
-            llenarCampos(Integer.parseInt(txtId.getText()));
-            desactivarCampos();
-        }
-
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        if(txtDNI.getText().isEmpty() || txtApellido.getText().isEmpty() || txtNombre.getText().isEmpty() || dtcFechaNacimiento.getDate() == null){
-            JOptionPane.showMessageDialog(null,"Debe llenar primero todos los campos", "Alerta", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-            guardarAlumno();
-        }
-        
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         // TODO add your handling code here:
-        if(txtId.getText().isEmpty() || txtDNI.getText().isEmpty() || txtApellido.getText().isEmpty() || txtNombre.getText().isEmpty() || dtcFechaNacimiento.getDate() == null){
-            JOptionPane.showMessageDialog(null,"Debe haber un alumno cargado para ser borrado", "Alerta", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-            borrarAlumno(Integer.parseInt(txtId.getText()));
+        if (txtDNI.getText().isEmpty() || txtApellido.getText().isEmpty() || txtNombre.getText().isEmpty() || dtcFechaNacimiento.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Debe haber un alumno cargado para ser borrado", "Alerta", JOptionPane.WARNING_MESSAGE);
+        } else {
+            borrarAlumno(Integer.parseInt(txtDNI.getText()));
             limpiarCampos();
+            inicio();
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
+        modoEdicion = false;
         limpiarCampos();
         activarCampos();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
+        btnBorrar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+        btnBuscar.setEnabled(false);
+        pnlBotonesAct.setVisible(true);
+
+
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        if(txtId.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,"No se puede actualizar el alumno\nRazon: No se ha cargado ningun \n Id de alumno.", "Alerta", JOptionPane.WARNING_MESSAGE);
-        }else{
+        modoEdicion = true;
+        if (txtDNI.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se puede actualizar el alumno\nRazon: No se ha cargado ningun \n Id de alumno.", "Alerta", JOptionPane.WARNING_MESSAGE);
+        } else {
             pnlBotonesAct.setVisible(true);
             activarCampos();
-            txtId.setEnabled(false);
             bloquearBotones();
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -321,9 +269,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     private void btnActCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActCancelarActionPerformed
         // TODO add your handling code here:
         pnlBotonesAct.setVisible(false);
-        limpiarCampos();
-        activarBotones();
-        activarCampos();
+        inicio();
     }//GEN-LAST:event_btnActCancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -333,11 +279,53 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
     private void btnActGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActGuardarActionPerformed
         // TODO add your handling code here:
-        actualizarAlumno();
+
+        if (txtDNI.getText().isEmpty() || txtApellido.getText().isEmpty() || txtNombre.getText().isEmpty() || dtcFechaNacimiento.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Debe llenar primero todos los campos", "Alerta", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String valor = "[0-9]+";
+        if (!txtDNI.getText().matches(valor) || txtDNI.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un numero valido");
+            return;
+        }
+        int dni;
+        try {
+            dni = Integer.parseInt(txtDNI.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El DNI ingresado es demasiado largo");
+            return;
+        }
+
+        if (modoEdicion && alumno != null) {
+            actualizarAlumno();
+        } else {
+            guardarAlumno();
+        }
+        inicio();
+
     }//GEN-LAST:event_btnActGuardarActionPerformed
-    
-    
-    
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        String valor = "[0-9]+";
+        if (!txtDNI.getText().matches(valor) || txtDNI.getText().isEmpty()) {
+            limpiarCampos();
+            inicio();
+            JOptionPane.showMessageDialog(this, "Debe ingresar un numero valido");
+            return;
+        }
+        try {
+            btnActualizar.setEnabled(true);
+            btnBorrar.setEnabled(true);
+            llenarCampos(Integer.parseInt(txtDNI.getText()));
+        } catch (NumberFormatException e) {
+            inicio();
+            JOptionPane.showMessageDialog(this, "El DNI ingresado es demasiado largo");
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActCancelar;
@@ -345,29 +333,35 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JCheckBox chkActivo;
     private com.toedter.calendar.JDateChooser dtcFechaNacimiento;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblActivo;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblDNI;
     private javax.swing.JLabel lblFechaNac;
-    private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel pnlBotonesAct;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDNI;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
+    public void inicio() {
+        pnlBotonesAct.setVisible(false);
+        limpiarCampos();
+        btnBuscar.setEnabled(true);
+        desactivarCampos();
+        btnActualizar.setEnabled(false);
+        btnBorrar.setEnabled(false);
+        btnNuevo.setEnabled(true);
+
+    }
+
     public void limpiarCampos() {
-        txtId.setText("");
         txtDNI.setText("");
         txtApellido.setText("");
         txtNombre.setText("");
@@ -376,62 +370,59 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     }
 
     public void desactivarCampos() {
-        txtDNI.setEnabled(false);
         txtApellido.setEnabled(false);
         txtNombre.setEnabled(false);
         dtcFechaNacimiento.setEnabled(false);
         chkActivo.setEnabled(false);
     }
+
     public void activarCampos() {
-        txtId.setEnabled(true);
         txtDNI.setEnabled(true);
         txtApellido.setEnabled(true);
         txtNombre.setEnabled(true);
         dtcFechaNacimiento.setEnabled(true);
         chkActivo.setEnabled(true);
     }
-    
-    public void bloquearBotones(){
-       btnActualizar.setEnabled(false);
-       btnBorrar.setEnabled(false);
-       btnGuardar.setEnabled(false);
-       btnLimpiar.setEnabled(false);
-       btnBuscar.setEnabled(false);
-    }
-    
-    public void activarBotones(){
-       btnActualizar.setEnabled(true);
-       btnBorrar.setEnabled(true);
-       btnGuardar.setEnabled(true);
-       btnLimpiar.setEnabled(true);
-       btnBuscar.setEnabled(true);
-    }
-    
 
-    public void llenarCampos(int id) {
-        alumno = ad.buscarAlumno(id);
+    public void bloquearBotones() {
+        btnActualizar.setEnabled(false);
+        btnBorrar.setEnabled(false);
+        btnNuevo.setEnabled(false);
+        btnBuscar.setEnabled(false);
+    }
+
+    public void activarBotones() {
+        btnActualizar.setEnabled(true);
+        btnBorrar.setEnabled(true);
+        btnNuevo.setEnabled(true);
+        btnBuscar.setEnabled(true);
+    }
+
+    public void llenarCampos(int DNI) {
+        alumno = ad.buscarAlumno(DNI);
 
         if (alumno != null) {
-            txtDNI.setText(Integer.toString(alumno.getDni()));
             txtApellido.setText(alumno.getApellido());
             txtNombre.setText(alumno.getNombre());
             dtcFechaNacimiento.setDate(java.sql.Date.valueOf(alumno.getFechaNac()));
             chkActivo.setSelected(alumno.isActivo());
         } else {
-            JOptionPane.showMessageDialog(null, "El ID del alumno ingresado no existe!!", "Alerta", JOptionPane.WARNING_MESSAGE);
+            limpiarCampos();
+            btnActualizar.setEnabled(false);
+            btnBorrar.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "El alumno ingresado no existe!!", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
     }
 
     public void borrarAlumno(int id) {
-        int respuesta = JOptionPane.showConfirmDialog(null,"Realmente desea eliminar el alumno?", "Borrado de Alumno", JOptionPane.YES_NO_OPTION);
-        if(respuesta == JOptionPane.YES_OPTION){
+        int respuesta = JOptionPane.showConfirmDialog(null, "Realmente desea eliminar el alumno?", "Borrado de Alumno", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
             if (ad.buscarAlumno(id) != null) {
-            ad.borrarAlumno(id);
-            JOptionPane.showMessageDialog(null, "Alumno borrado correctamente");
+                ad.borrarAlumno(id);
             } else {
-            JOptionPane.showMessageDialog(null, "No se pude borrar el alumno");
+                JOptionPane.showMessageDialog(null, "No se pude borrar el alumno");
             }
-        }else {
+        } else {
             limpiarCampos();
             activarCampos();
         }
@@ -445,10 +436,10 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         LocalDate fecha = dtcFechaNacimiento.getCalendar().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
         alumno.setFechaNac(fecha);
         alumno.setActivo(chkActivo.isSelected());
-        
-        ad.guardarAlumno(alumno);     
+
+        ad.guardarAlumno(alumno);
     }
-    
+
     public void actualizarAlumno() {
         alumno.setDni(Integer.parseInt(txtDNI.getText()));
         alumno.setApellido(txtApellido.getText());
@@ -457,8 +448,8 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         LocalDate fecha = dtcFechaNacimiento.getCalendar().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
         alumno.setFechaNac(fecha);
         alumno.setActivo(chkActivo.isSelected());
-        
-        ad.actualizarAlumno(alumno, Integer.parseInt(txtId.getText()));        
+
+        ad.actualizarAlumno(alumno);
     }
 
 }
