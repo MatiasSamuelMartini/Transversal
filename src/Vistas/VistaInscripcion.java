@@ -26,6 +26,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     public VistaInscripcion() {
         initComponents();
         llenarCabecera();
+        llearcmb();
         inicio();
     }
 
@@ -286,7 +287,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     }
 
     private void inicio() {
-        llearcmb();
+        cmbAlumno.setSelectedIndex(-1);
         chkMaterias.setSelected(false);
         chkMateriasNo.setSelected(false);
         btnAnularInscripcion.setEnabled(false);
