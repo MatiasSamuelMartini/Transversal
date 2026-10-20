@@ -1,5 +1,6 @@
 package Persistencia;
 
+import Modelo.Alumno;
 import Modelo.Conexion;
 import Modelo.Cursada;
 import Modelo.Materia;
@@ -95,6 +96,23 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
         }
         return cursadas;
+    }
+    
+    public List<Alumno> obtenerAlumnosPorMateria(int idMateria) {
+        List<Alumno> lista = new ArrayList<>();
+        String sql = "SELECT DISTINCT a.* FROM alumno a JOIN cursada c ON a.idAlumno = c.idAlumno "
+                   + "WHERE c.idMateria=?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idMateria);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new Alumno(rs.getInt("dni"), rs.getString("nombre"),rs.getString("apellido"),rs.getDate("fechaNac").toLocalDate(), rs.getBoolean("activo")));
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al listar alumnos: " + e.getMessage());
+        }
+        return lista;
     }
 
     public List<Cursada> listarNotasPorAlumno(int idAlumno) {
