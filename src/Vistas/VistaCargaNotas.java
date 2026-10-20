@@ -11,6 +11,8 @@ import Persistencia.AlumnoData;
 import Persistencia.InscripcionData;
 import Persistencia.MateriaData;
 import java.util.*;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,7 +27,6 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
     Materia materia = new Materia();
     Alumno alumno = new Alumno();
     Cursada cursada = new Cursada();
-    private DefaultTableModel modelo = new DefaultTableModel();
 
     /**
      * Creates new form VistaCargaNotas
@@ -33,7 +34,6 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
     public VistaCargaNotas() {
         initComponents();
         llenarCabecera();
-        llenarTabla();
         llenarCMB();
     }
 
@@ -48,13 +48,21 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         cmbSeleccionarAlumno = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblNotas = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblNotas = new javax.swing.JTable();
 
         cmbSeleccionarAlumno.addActionListener(this::cmbSeleccionarAlumnoActionPerformed);
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        jButton2.setText("Salir");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jLabel1.setText("Seleccione un alumno:");
 
         tblNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -64,17 +72,22 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
                 {null, null, null}
             },
             new String [] {
-                "Codigo", "Nombre", "Nota"
+                "", "", ""
             }
-        ));
-        jScrollPane1.setViewportView(tblNotas);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
 
-        jButton1.setText("Guardar");
-
-        jButton2.setText("Salir");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-
-        jLabel1.setText("Seleccione un alumno:");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblNotas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tblNotas);
+        if (tblNotas.getColumnModel().getColumnCount() > 0) {
+            tblNotas.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,13 +101,15 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
                 .addGap(136, 136, 136))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbSeleccionarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(cmbSeleccionarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(40, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(41, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,13 +118,16 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbSeleccionarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(136, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(64, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -125,7 +143,7 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 349, Short.MAX_VALUE)
+            .addGap(0, 358, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -138,12 +156,39 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
 
     private void cmbSeleccionarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSeleccionarAlumnoActionPerformed
         // TODO add your handling code here:
+        llenarTabla();
     }//GEN-LAST:event_cmbSeleccionarAlumnoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    if (tblNotas.isEditing()) {
+        tblNotas.getCellEditor().stopCellEditing();
+    }
+
+    int fila = tblNotas.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione una fila.");
+        return;
+    }
+
+    try {
+        int idCursada = (int) modelo.getValueAt(fila, 0);
+        float nota = Float.parseFloat(modelo.getValueAt(fila, 2).toString().replace(',', '.'));
+
+        if (nota < 0 || nota > 10) {
+            JOptionPane.showMessageDialog(this, "La nota debe estar entre 0 y 10.");
+            return;
+        }
+        id.actualizarNota(idCursada, nota);
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Ingrese una nota válida.");
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -152,20 +197,16 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblNotas;
     // End of variables declaration//GEN-END:variables
 
     public void llenarCabecera() {
-        ArrayList<Object> c = new ArrayList<>();
-        c.add("Id Materias");
-        c.add("Materia");
-        c.add("Nota");
-
-        for (Object it : c) {
-            modelo.addColumn(it);
-            tblNotas.setModel(modelo);
-        }
+        modelo.addColumn("Id Materias");
+        modelo.addColumn("Materia");
+        modelo.addColumn("Nota");
+        tblNotas.setModel(modelo);
+        tblNotas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void borrarFila() {
@@ -177,12 +218,15 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
     }
 
     private void llenarTabla() {
-        borrarFila();
-        for (Cursada c : id.listarNotas()) {
-            modelo.addRow(new Object[]{c.getIdCursada(), c.getMateria().getNombre(), c.getNota()});
-
-        }
+    borrarFila();
+    Alumno sel = (Alumno) cmbSeleccionarAlumno.getSelectedItem();
+    if (sel == null) {
+        return;
     }
+    for (Cursada c : id.listarNotasPorAlumno(sel.getIdAlumno())) {
+        modelo.addRow(new Object[]{c.getIdCursada(), c.getMateria().getNombre(), c.getNota()});
+    }
+}
 
     private void llenarCMB() {
         cmbSeleccionarAlumno.removeAllItems(); // evita duplicados si lo llamás más de una vez
@@ -193,5 +237,12 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
             cmbSeleccionarAlumno.setSelectedIndex(0);
         }
     }
-
+    
+    private final DefaultTableModel modelo = new DefaultTableModel() {
+    @Override
+    public boolean isCellEditable(int fila, int columna) {
+        return columna == 2; // solo la nota
+    }
+};
 }
+
