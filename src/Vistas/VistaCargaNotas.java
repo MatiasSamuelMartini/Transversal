@@ -229,7 +229,7 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
 }
 
     private void llenarCMB() {
-        cmbSeleccionarAlumno.removeAllItems(); // evita duplicados si lo llamás más de una vez
+        cmbSeleccionarAlumno.removeAllItems();
         for (Alumno a : ad.listarAlumno()) {
             cmbSeleccionarAlumno.addItem(a);
         }
@@ -241,7 +241,7 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
     private final DefaultTableModel modelo = new DefaultTableModel() {
     @Override
     public boolean isCellEditable(int fila, int columna) {
-        return columna == 2; // solo la nota
+        return columna == 2;
     }
 };
 }

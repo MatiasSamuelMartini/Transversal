@@ -75,7 +75,7 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error al anular: " + e.getMessage());
         }
     }
-    
+
     public List<Cursada> listarNotas() {
         String sql = "SELECT idCursada, idMateria, nota FROM cursada";
         List<Cursada> cursadas = new ArrayList<>();
@@ -95,6 +95,44 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error SQL: " + ex.getMessage());
         }
         return cursadas;
+    }
+
+    public List<Cursada> listarNotasPorAlumno(int idAlumno) {
+        String sql = "SELECT idCursada, idMateria, nota FROM cursada WHERE idAlumno = ?";
+        List<Cursada> cursadas = new ArrayList<>();
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idAlumno);
+            try (ResultSet rs = ps.executeQuery()) {
+                MateriaData materiaData = new MateriaData();
+                while (rs.next()) {
+                    Cursada c = new Cursada();
+                    c.setIdCursada(rs.getInt("idCursada"));
+                    c.setMateria(materiaData.buscarMateria(rs.getInt("idMateria")));
+                    c.setNota(rs.getFloat("nota"));
+                    cursadas.add(c);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar notas: " + ex.getMessage());
+        }
+        return cursadas;
+    }
+
+    public void actualizarNota(int idCursada, float nota) {
+        String sql = "UPDATE cursada SET nota = ? WHERE idCursada = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setFloat(1, nota);
+            ps.setInt(2, idCursada);
+            int filas = ps.executeUpdate();
+            if (filas > 0) {
+                JOptionPane.showMessageDialog(null, "Nota actualizada con éxito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró la cursada.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar la nota: " + ex.getMessage());
+        }
     }
 
 }

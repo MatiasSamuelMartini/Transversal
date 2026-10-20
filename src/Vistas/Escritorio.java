@@ -92,7 +92,8 @@ public class Escritorio extends javax.swing.JFrame {
 
         mnuSalir.setText("Salir");
 
-        mitSalir.setText("jMenuItem1");
+        mitSalir.setText("Cerrar");
+        mitSalir.addActionListener(this::mitSalirActionPerformed);
         mnuSalir.add(mitSalir);
 
         jMenuBar1.add(mnuSalir);
@@ -144,6 +145,11 @@ public class Escritorio extends javax.swing.JFrame {
         dptEscritorio.add(vistacargarnotas);
         dptEscritorio.moveToFront(vistacargarnotas);
     }//GEN-LAST:event_mitCargarNotasActionPerformed
+
+    private void mitSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitSalirActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_mitSalirActionPerformed
 
     /**
      * @param args the command line arguments
