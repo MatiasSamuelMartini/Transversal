@@ -69,9 +69,5 @@ public class Cursada {
     public void setCursa(LocalDate cursa) {
         this.cursa = cursa;
     }
-    
-    
-    
-    
-    
+   
 }
